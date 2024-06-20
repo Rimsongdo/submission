@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import noteService from './services/persons';
-import './index.css'
+import './index.css';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
-  const [addMessage, setAddmessage]=useState('')
+  const [addMessage, setAddmessage] = useState('');
 
   useEffect(() => {
     noteService.getAll()
@@ -33,17 +33,17 @@ const App = () => {
 
     const nameExists = persons.some(p => p.name === newName);
     if (nameExists) {
-      setAddmessage(newName +' is already added')
+      setAddmessage(newName + ' is already added');
     } else {
       noteService.create(person)
         .then(response => {
-          setPersons([...persons, response.data]); // Ajoute le nouveau contact à la liste actuelle
+          setPersons([...persons, response.data]);
           setNewName('');
           setNewNumber('');
-          setAddmessage(newName +' is added')
+          setAddmessage(newName + ' is added');
         })
         .catch(error => {
-          setAddmessage(newName + ' cannot be added')
+          setAddmessage(newName + ' cannot be added');
           console.error('Failed to add person:', error);
         });
     }
@@ -53,7 +53,7 @@ const App = () => {
     if (window.confirm('Do you really want to delete this person?')) {
       noteService.remove(id)
         .then(() => {
-          setPersons(persons.filter(person => person.id !== id)); // Filtrer pour exclure le contact supprimé
+          setPersons(persons.filter(person => person.id !== id));
         })
         .catch(error => {
           console.error('Failed to delete person:', error);
@@ -72,7 +72,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <div className='message'><h2>{addMessage}</h2></div>
+      <div className='message'><h2>{addMessage}</h2></div>
       <Filter value={searchTerm} onChange={handleSearchChange} />
 
       <h3>Add a new</h3>
